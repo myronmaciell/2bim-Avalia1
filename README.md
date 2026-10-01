@@ -24,4 +24,4 @@ Framework preset: `None`. Build command: vazio. Build output directory: `public`
 
 Nome: Myron Maciel
 RA: 2026108550
-URL: https://2bim-avalia1-eb9.pages.dev/
+URL: https://2bim-avalia1-eb9.pages.dev
