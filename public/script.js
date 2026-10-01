@@ -10,10 +10,20 @@ function handleCredentialResponse(response) {
   idToken = response.credential;
   mensagem.textContent = "Login realizado com sucesso.";
 
-  // Esconde o botão
   const botaoGoogle = document.getElementById("botao-google");
   if (botaoGoogle) {
+    // Limpa tudo que o Google colocou dentro
+    botaoGoogle.innerHTML = "";
+    
+    // Esconde de várias formas
     botaoGoogle.style.display = "none";
+    botaoGoogle.style.visibility = "hidden";
+    botaoGoogle.style.height = "0";
+    botaoGoogle.style.overflow = "hidden";
+    botaoGoogle.hidden = true;
+    
+    // Remove o elemento completamente (mais garantido)
+    botaoGoogle.remove();
   }
 }
 
