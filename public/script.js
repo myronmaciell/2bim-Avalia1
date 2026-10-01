@@ -8,8 +8,13 @@ const baixar = document.getElementById("baixar");
 
 window.handleCredentialResponse = function (response) {
   idToken = response.credential;
-
   mensagem.textContent = "Login realizado com sucesso.";
+
+  // Esconde o botão do Google
+  const botaoGoogle = document.querySelector(".g_id_signin");
+  if (botaoGoogle) {
+    botaoGoogle.style.display = "none";
+  }
 };
 
 formulario.addEventListener("submit", async (event) => {
