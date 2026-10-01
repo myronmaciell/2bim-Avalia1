@@ -6,10 +6,9 @@
   <title>Desenho Assinado</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
-  <main>
+  <main class="card">
     <header>
       <h1>Desenho Assinado</h1>
       <p>
@@ -19,7 +18,6 @@
       </p>
     </header>
 
-    <!-- Botão do Google -->
     <div id="botao-google"></div>
 
     <form id="formulario" novalidate>
@@ -34,12 +32,12 @@
         required
         placeholder="42"
       >
-      <button type="submit">Desenhar</button>
+      <button type="submit" class="btn-primary">Desenhar</button>
     </form>
 
     <p id="mensagem" role="alert"></p>
     <figure id="desenho" aria-live="polite"></figure>
-    <button id="baixar" type="button" hidden>Baixar SVG</button>
+    <button id="baixar" type="button" class="btn-secondary" hidden>Baixar SVG</button>
   </main>
 
   <script src="script.js"></script>
