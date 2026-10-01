@@ -72,12 +72,11 @@ export async function onRequest(context) {
     });
   }
 
-  // Verifica se o token foi emitido para o nosso Client ID
-  if (dadosGoogle.aud !== context.env.GOOGLE_CLIENT_ID) {
-    return new Response("Token inválido", {
-      status: 401
-    });
-  }
+ if (dadosGoogle.email_verified !== true && dadosGoogle.email_verified !== "true") {
+  return new Response("E-mail não verificado", {
+    status: 401
+  });
+}
 
   // Verifica se o e-mail foi confirmado pelo Google
   if (dadosGoogle.email_verified !== "true") {
