@@ -6,19 +6,23 @@ const mensagem = document.getElementById("mensagem");
 const desenho = document.getElementById("desenho");
 const baixar = document.getElementById("baixar");
 
-window.handleCredentialResponse = function (response) {
+function handleCredentialResponse(response) {
   idToken = response.credential;
   mensagem.textContent = "Login realizado com sucesso.";
 
-  // Esconde o botão de forma mais segura
+  // Esconde o botão
   const botaoGoogle = document.getElementById("botao-google");
   if (botaoGoogle) {
     botaoGoogle.style.display = "none";
   }
-};
+}
+
+// Deixa a função global (importante)
+window.handleCredentialResponse = handleCredentialResponse;
 
 formulario.addEventListener("submit", async (event) => {
-  event.preventDefault();
+  // ... resto do seu código continua igual
+});
 
   mensagem.textContent = "";
   desenho.innerHTML = "";
