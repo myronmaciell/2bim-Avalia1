@@ -8,6 +8,8 @@
   --border: #2a2a3a;
   --success: #4ade80;
   --error: #f87171;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 * {
@@ -30,7 +32,8 @@ body {
     radial-gradient(ellipse at 80% 80%, rgba(124, 92, 252, 0.1) 0%, transparent 50%);
 }
 
-main {
+/* ===== CARD PRINCIPAL ===== */
+.card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 20px;
@@ -39,9 +42,18 @@ main {
   max-width: 520px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(40px) scale(0.97);
+  animation: cardEnter 0.9s var(--ease-out-expo) 0.1s forwards;
 }
 
+@keyframes cardEnter {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== HEADER ===== */
 header {
   text-align: center;
   margin-bottom: 2rem;
@@ -55,25 +67,60 @@ header h1 {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 0.6rem;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeUp 0.7s var(--ease-out-expo) 0.3s forwards;
 }
 
 header p {
   color: var(--text-muted);
   font-size: 0.95rem;
   line-height: 1.5;
+  opacity: 0;
+  transform: translateY(-12px);
+  animation: fadeUp 0.7s var(--ease-out-expo) 0.45s forwards;
 }
 
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== BOTÃO GOOGLE ===== */
 #botao-google {
   display: flex;
   justify-content: center;
   margin-bottom: 1.8rem;
+  opacity: 0;
+  transform: scale(0.85);
+  animation: scaleIn 0.6s var(--ease-spring) 0.6s forwards;
 }
 
+@keyframes scaleIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== FORMULÁRIO ===== */
 form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
+form > * {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s var(--ease-out-expo) forwards;
+}
+
+form label       { animation-delay: 0.7s; }
+form input       { animation-delay: 0.8s; }
+form button      { animation-delay: 0.9s; }
 
 label {
   font-size: 0.9rem;
@@ -88,53 +135,115 @@ input[type="number"] {
   padding: 0.9rem 1.1rem;
   color: var(--text);
   font-size: 1.1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
 }
 
 input[type="number"]:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.25);
+  box-shadow: 0 0 0 4px rgba(124, 92, 252, 0.25);
+  transform: translateY(-1px);
 }
 
-button[type="submit"],
-#baixar {
-  background: var(--accent);
-  color: white;
+/* ===== BOTÕES ===== */
+.btn-primary,
+.btn-secondary {
   border: none;
   border-radius: 12px;
   padding: 0.95rem;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s var(--ease-spring), background 0.25s;
 }
 
-button[type="submit"]:hover,
-#baixar:hover {
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
   background: var(--accent-hover);
+  transform: scale(1.03);
 }
 
-button[type="submit"]:active,
-#baixar:active {
-  transform: scale(0.98);
+.btn-primary:active {
+  transform: scale(0.97);
 }
 
+/* Efeito de brilho no hover */
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.btn-primary:hover::before {
+  transform: translateX(100%);
+}
+
+.btn-secondary {
+  margin-top: 1.2rem;
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.btn-secondary:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.03);
+}
+
+.btn-secondary[hidden] {
+  display: none;
+}
+
+/* ===== MENSAGEM ===== */
 #mensagem {
   text-align: center;
   margin-top: 1.2rem;
   font-size: 0.95rem;
   min-height: 1.4rem;
+  transition: color 0.3s;
 }
 
 #mensagem.sucesso {
   color: var(--success);
+  animation: bounceIn 0.5s var(--ease-spring);
 }
 
 #mensagem.erro {
   color: var(--error);
+  animation: shake 0.45s ease-in-out;
 }
 
+@keyframes bounceIn {
+  0%   { opacity: 0; transform: scale(0.8); }
+  60%  { transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-8px); }
+  40%      { transform: translateX(8px); }
+  60%      { transform: translateX(-6px); }
+  80%      { transform: translateX(6px); }
+}
+
+/* ===== DESENHO ===== */
 #desenho {
   margin-top: 1.8rem;
   display: flex;
@@ -144,10 +253,23 @@ button[type="submit"]:active,
   padding: 1rem;
   border: 1px solid var(--border);
   overflow: hidden;
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
 }
 
 #desenho:empty {
   display: none;
+}
+
+#desenho.show {
+  animation: desenhoEnter 0.8s var(--ease-out-expo) forwards;
+}
+
+@keyframes desenhoEnter {
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 #desenho svg {
@@ -156,19 +278,12 @@ button[type="submit"]:active,
   border-radius: 8px;
 }
 
-#baixar {
-  margin-top: 1.2rem;
-  width: 100%;
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
+/* ===== LOADING PULSE ===== */
+.loading {
+  animation: pulse 1.1s ease-in-out infinite;
 }
 
-#baixar:hover {
-  background: var(--accent);
-  color: white;
-}
-
-#baixar[hidden] {
-  display: none;
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
 }
