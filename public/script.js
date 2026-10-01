@@ -88,4 +88,12 @@ formulario.addEventListener("submit", async (event) => {
     console.error(erro);
     mensagem.textContent = "Não foi possível conectar ao servidor.";
   }
+
+  // Se já tiver token salvo (opcional)
+if (idToken) {
+  const botaoGoogle = document.querySelector(".g_id_signin");
+  if (botaoGoogle) {
+    botaoGoogle.style.display = "none";
+  }
+}
 });
