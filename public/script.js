@@ -17,13 +17,25 @@ function handleCredentialResponse(response) {
   }
 }
 
-// Deixa a função global (importante)
-window.handleCredentialResponse = handleCredentialResponse;
+window.onload = function () {
+  google.accounts.id.initialize({
+    client_id: "476625408052-3f1sc13pg158rvhlnm168lj8316t1cn3.apps.googleusercontent.com",
+    callback: handleCredentialResponse
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById("botao-google"),
+    {
+      theme: "outline",
+      size: "large",
+      text: "signin_with",
+      shape: "rectangular"
+    }
+  );
+};
 
 formulario.addEventListener("submit", async (event) => {
-  // ... resto do seu código continua igual
-});
-
+  event.preventDefault();
   mensagem.textContent = "";
   desenho.innerHTML = "";
   baixar.hidden = true;
@@ -49,9 +61,7 @@ formulario.addEventListener("submit", async (event) => {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${idToken}`
       },
-      body: JSON.stringify({
-        numero: numero
-      })
+      body: JSON.stringify({ numero: numero })
     });
 
     if (resposta.status === 400) {
@@ -70,13 +80,9 @@ formulario.addEventListener("submit", async (event) => {
     }
 
     const svg = await resposta.text();
-
     desenho.innerHTML = svg;
 
-    const blob = new Blob([svg], {
-      type: "image/svg+xml"
-    });
-
+    const blob = new Blob([svg], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
 
     baixar.onclick = () => {
@@ -92,12 +98,4 @@ formulario.addEventListener("submit", async (event) => {
     console.error(erro);
     mensagem.textContent = "Não foi possível conectar ao servidor.";
   }
-
-  // Se já tiver token salvo (opcional)
-if (idToken) {
-  const botaoGoogle = document.querySelector(".g_id_signin");
-  if (botaoGoogle) {
-    botaoGoogle.style.display = "none";
-  }
-}
 });
